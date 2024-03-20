@@ -39,15 +39,15 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init infra/
+        run: terraform init  -chdir=infra/
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate infra/ -no-color
+        run: terraform validate  -chdir=infra/ -no-color
 
       - name: Terraform Plan
         id: plan
-        run: TF_LOG=DEBUG terraform plan infra/ -input=false -no-color -out latest
+        run: TF_LOG=DEBUG terraform plan  -chdir=infra/ -input=false -no-color -out latest
         continue-on-error: true
 
       - name: Terraform Apply
