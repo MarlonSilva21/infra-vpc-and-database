@@ -1,4 +1,4 @@
-name: Deploy AWS Resources
+name: Create Network Relationships
 
 on:
   push:
