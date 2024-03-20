@@ -1,4 +1,4 @@
-name: Destroy AWS Resources
+name: Destroy Network Relationships
 
 on:
   workflow_dispatch:
