@@ -1,55 +1,39 @@
-name: Create Network Relationships
+name: Deploy AWS Resources
 
 on:
   push:
     branches:
-      - 'main'
-
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-permissions:
-  pull-requests: write
+      - main
 
 jobs:
-  plan-prod:
-    name: 'Create Network Relationships'
+  deploy:
     runs-on: ubuntu-latest
-    environment: 'dev'
-    env:
-      TF_WORKING_DIR: '.'
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ env.TF_WORKING_DIR }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.0
 
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
-      - name: Terraform Init
-        id: init
-        run: terraform init  -chdir=infra/
+    - name: Initialize Terraform
+      run: terraform init infra/
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate  -chdir=infra/ -no-color
+    - name: Validate Terraform
+      run: terraform validate infra/
 
-      - name: Terraform Plan
-        id: plan
-        run: TF_LOG=DEBUG terraform plan  -chdir=infra/ -input=false -no-color -out latest
-        continue-on-error: true
+    - name: Plan Terraform
+      run: terraform plan -out=tfplan infra/
 
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -auto-approve "latest"
+    - name: Apply Terraform
+      run: terraform apply -auto-approve tfplan
+
