@@ -64,7 +64,7 @@ resource "aws_internet_gateway" "cluster-igw" {
 
 # provisionamento NAT gateway
 resource "aws_eip" "cluster-eip-nat-gateway" {
-  vpc = true
+  domain = vpc
 }
 
 resource "aws_nat_gateway" "cluster-nat-gateway" {
