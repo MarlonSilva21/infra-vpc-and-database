@@ -1,4 +1,4 @@
-# provisionamento vpc
+# Provisionamento VPC
 resource "aws_vpc" "cluster-vpc-bb" {
   cidr_block = "10.0.0.0/16"
 
@@ -7,7 +7,7 @@ resource "aws_vpc" "cluster-vpc-bb" {
   }
 }
 
-# provisionamento subnets publicas
+# Provisionamento Subnets Públicas
 resource "aws_subnet" "cluster-vpc-subnet-public-1" {
   vpc_id            = aws_vpc.cluster-vpc-bb.id
   cidr_block        = "10.0.1.0/24"
@@ -32,7 +32,7 @@ resource "aws_subnet" "cluster-vpc-subnet-public-2" {
   }
 }
 
-# provisionamento subnets privadas
+# Provisionamento Subnets Privadas
 resource "aws_subnet" "cluster-vpc-subnet-private-1" {
   vpc_id            = aws_vpc.cluster-vpc-bb.id
   cidr_block        = "10.0.3.0/24"
@@ -53,7 +53,7 @@ resource "aws_subnet" "cluster-vpc-subnet-private-2" {
   }
 }
 
-# provisionamento internet gateway
+# Provisionamento Internet Gateway
 resource "aws_internet_gateway" "cluster-igw" {
   vpc_id = aws_vpc.cluster-vpc-bb.id
 
@@ -62,7 +62,7 @@ resource "aws_internet_gateway" "cluster-igw" {
   }
 }
 
-# provisionamento NAT gateway
+# Provisionamento NAT Gateway
 resource "aws_eip" "cluster-eip-nat-gateway" {
   domain = "vpc"
 }
@@ -72,8 +72,7 @@ resource "aws_nat_gateway" "cluster-nat-gateway" {
   subnet_id     = aws_subnet.cluster-vpc-subnet-public-1.id
 }
 
-
-# provisionamento route table para subnets publicas
+# Provisionamento Tabela de Roteamento para Subnets Públicas
 resource "aws_route_table" "cluster-route-table" {
   vpc_id = aws_vpc.cluster-vpc-bb.id
 
@@ -87,7 +86,7 @@ resource "aws_route_table" "cluster-route-table" {
   }
 }
 
-# provisionamento route table para subnets privadas
+# Provisionamento Tabela de Roteamento para Subnets Privadas
 resource "aws_route_table" "private_route_1" {
   vpc_id = aws_vpc.cluster-vpc-bb.id
 
@@ -104,7 +103,7 @@ resource "aws_route_table" "private_route_2" {
   }
 }
 
-# provisionamento de uma rota para o NAT Gateway para as subnets privadas
+# Provisionamento de uma rota para o NAT Gateway para as Subnets Privadas
 resource "aws_route" "private_subnet_1_nat_route" {
   route_table_id         = aws_route_table.private_route_1.id
   nat_gateway_id         = aws_nat_gateway.cluster-nat-gateway.id
@@ -117,7 +116,7 @@ resource "aws_route" "private_subnet_2_nat_route" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
-# provisionamento route table association
+# Provisionamento Associação de Tabela de Roteamento para Subnets Públicas
 resource "aws_route_table_association" "cluster-rta-public-1" {
   route_table_id = aws_route_table.cluster-route-table.id
   subnet_id      = aws_subnet.cluster-vpc-subnet-public-1.id
@@ -128,6 +127,7 @@ resource "aws_route_table_association" "cluster-rta-public-2" {
   subnet_id      = aws_subnet.cluster-vpc-subnet-public-2.id
 }
 
+# Provisionamento Associação de Tabela de Roteamento para Subnets Privadas
 resource "aws_route_table_association" "cluster-rta-private-1" {
   route_table_id = aws_route_table.private_route_1.id
   subnet_id      = aws_subnet.cluster-vpc-subnet-private-1.id
