@@ -16,12 +16,6 @@ variable "region_default" {
   type        = string
 }
 
-variable "vpc_cidr" {
-  description = "CIDR da VPC onde os recursos serão lançados. Por exemplo, '172.31.0.0/16'."
-  default     = "172.31.0.0/16"
-  type        = string
-}
-
 variable "engine_rds" {
   description = "Motor de banco de dados para o RDS. Por exemplo, 'mysql'."
   default     = "mysql"
@@ -45,7 +39,7 @@ variable "rds_pass" {
   description = "Senha para acessar o RDS. Este valor é sensível."
   type        = string
   sensitive   = true
-  default     = "root" # TODO - retirar hardcoded
+  default     = "Root123456!" # TODO - retirar hardcoded
 }
 
 variable "instance_class" {
