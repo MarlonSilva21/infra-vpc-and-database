@@ -4,15 +4,15 @@ variable "project_name" {
   type        = string
 }
 
-variable "region_default" {
-  description = "Região padrão onde os recursos serão provisionados. Por exemplo, 'us-east-1'."
-  default     = "us-east-1"
+variable "db_name" {
+  description = "Nome do RDS. Por exemplo, 'mydb'."
+  default     = "dbbluesburger"
   type        = string
 }
 
-variable "vpc_cidr" {
-  description = "CIDR da VPC onde os recursos serão lançados. Por exemplo, '172.31.0.0/16'."
-  default     = "172.31.0.0/16"
+variable "region_default" {
+  description = "Região padrão onde os recursos serão provisionados. Por exemplo, 'us-east-1'."
+  default     = "us-east-1"
   type        = string
 }
 
@@ -39,7 +39,7 @@ variable "rds_pass" {
   description = "Senha para acessar o RDS. Este valor é sensível."
   type        = string
   sensitive   = true
-  default     = "root" # TODO - retirar hardcoded
+  default     = "Root123456!" # TODO - retirar hardcoded
 }
 
 variable "instance_class" {
