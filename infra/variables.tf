@@ -4,6 +4,12 @@ variable "project_name" {
   type        = string
 }
 
+variable "db_name" {
+  description = "Nome do RDS. Por exemplo, 'mydb'."
+  default     = "dbbluesburger"
+  type        = string
+}
+
 variable "region_default" {
   description = "Região padrão onde os recursos serão provisionados. Por exemplo, 'us-east-1'."
   default     = "us-east-1"
