@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,9 +23,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Initialize Terraform
+      - name: Terraform Init
         run: terraform init infra/
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
-

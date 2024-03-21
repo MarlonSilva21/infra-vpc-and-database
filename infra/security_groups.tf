@@ -44,6 +44,10 @@ resource "aws_security_group" "private_subnet_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "cluster-security-group"
+  }
 }
 
 # Provisionamento de Grupos de Segurança para RDS
@@ -65,5 +69,9 @@ resource "aws_security_group" "sg-rds" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "rds-blues-burger-security-group"
   }
 }
