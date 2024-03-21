@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "subnet-rds" {
 
 # Provisionamento de uma instância RDS
 resource "aws_db_instance" "rds" {
-  db_name                      = var.project_name
+  db_name                      = var.db_name
   engine                       = var.engine_rds
   engine_version               = var.engine_rds_version
   identifier                   = "rds-${var.project_name}"
